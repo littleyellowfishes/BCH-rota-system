@@ -273,9 +273,8 @@ public class DataController {
         testUsers.add( new User("Amy", "November", 2, 2, "anovember@mail.com",passwordEncoder.encode("pass")));
         testUsers.add( new User("Max", "Bloom", 2, 3, "mbloom@mail.com",passwordEncoder.encode("pass")));
         testUsers.add( new User("Natasha", "Burns", 2, 3, "nburns@mail.com",passwordEncoder.encode("pass")));
-        testUsers.add( new User("Samantha", "Milsom", 0, 0, "smilsom@mail.com",passwordEncoder.encode("456")));
-        testUsers.add( new User("Robin", "Marlow", 1, 1,"rmarlow@mail.com",passwordEncoder.encode("pass")));
-        testUsers.add( new User("xin","Ye",0,0,"974615547@qq.com"));
+        testUsers.add( new User("Dummy", "Admin", 0, 0, "admin@mail.com",passwordEncoder.encode("admin")));
+        testUsers.add( new User("Dummy", "Spectator", 1, 1, "spectator@mail.com",passwordEncoder.encode("pass")));
         userService.deleteAllUsers();
         userService.addUsers(testUsers);
     }
