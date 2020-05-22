@@ -18,13 +18,13 @@ Please make sure to update tests as appropriate.
 
 ## Support
 
-For security purpose, we exclude our repository file. 
+For security reason, we excluded our application.properties file. 
 
 ##### To use in your project
 
-If you using a database it need to contain  `spring.datasource.url` ,`spring.datasource.username` and `spring.datasource.password`
+If you're using a database it need to contain  `spring.datasource.url` ,`spring.datasource.username` and `spring.datasource.password`
 
-if you using a email that will send to user base on behavior it need to contain `spring.mail.host`, `spring.mail.port`, `spring.mail.username`, `spring.mail.password, spring.mail.properties.mail.smtp.auth = true` and 
+if you're using a email that will send to user base on behavior it need to contain `spring.mail.host`, `spring.mail.port`, `spring.mail.username`, `spring.mail.password, spring.mail.properties.mail.smtp.auth = true` and 
 
 `spring.mail.properties.mail.smtp.starttls.enable = true`
 
