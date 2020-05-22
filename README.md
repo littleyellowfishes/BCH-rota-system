@@ -38,8 +38,5 @@ Xin Ye
 
 ## License
 
- [Apache](http://www.apache.org/licenses/)
 
-[MIT](https://choosealicense.com/licenses/mit/)
-
-[mysql](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
+[GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt)
