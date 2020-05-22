@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>BCH Rota</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <!--JExcel JS-->
+    <script src="https://bossanova.uk/jexcel/v4/jexcel.js"></script>
+    <script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
+    <link rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css" type="text/css" />
+    <link rel="stylesheet" href="https://bossanova.uk/jexcel/v4/jexcel.css" type="text/css" />
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>BCH Rota</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <p>Navigation</p>
+            <li>
+                <a href="/admin">Home</a>
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="/admin/users">Accounts</a>
+                    </li>
+                    <li>
+                        <a href="/admin/shift_types">Shift Types</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="/print">Print Weekly Rota</a>
+            </li>
+            <li>
+                <a href="/settings">Settings</a>
+            </li>
+            <li>
+                <a href="/logout">Sign out</a>
+            </li>
+        </ul>
+
+    </nav>
+    <!-- Page Content  -->
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </div>
+
+        </nav>
+        <div th:if="${successMessage}" th:text="${successMessage}" class="alert text-success" role="alert"></div>
+        <div th:if="${errorMessage}" th:text="${errorMessage}" class="alert text-danger" role="alert"></div>
+        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseCreate" aria-expanded="false" aria-controls="collapseExample">
+            Create new shift type
+        </button>
+        <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#collapseEdit" aria-expanded="false" aria-controls="collapseExample">
+            Edit selected shift type
+        </button>
+        <button class="btn btn-outline-primary" type="button" onclick="deleteSelectedShiftType()">Delete shift type</button>
+        <div class="collapse" id="collapseCreate">
+                <div class="card card-body">
+                    <h4 class="h4 mb-3 font-weight-normal">Create new shift type</h4>
+                    <form action="/addShiftType" method="POST" th:object="${shiftType}">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" class="form-control" id="inputName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectStartTime">Start time</label>
+                            <select class="form-control" id="selectStartTime" name="startTime" th:object="${startTime}" required>
+                                <option th:value="0">00:00</option>
+                                <option th:value="1">01:00</option>
+                                <option th:value="2">02:00</option>
+                                <option th:value="3">03:00</option>
+                                <option th:value="4">04:00</option>
+                                <option th:value="5">05:00</option>
+                                <option th:value="6">06:00</option>
+                                <option th:value="7">07:00</option>
+                                <option th:value="8">08:00</option>
+                                <option th:value="9">09:00</option>
+                                <option th:value="10">10:00</option>
+                                <option th:value="11">11:00</option>
+                                <option th:value="12">12:00</option>
+                                <option th:value="13">13:00</option>
+                                <option th:value="14">14:00</option>
+                                <option th:value="15">15:00</option>
+                                <option th:value="16">16:00</option>
+                                <option th:value="17">17:00</option>
+                                <option th:value="18">18:00</option>
+                                <option th:value="19">19:00</option>
+                                <option th:value="20">20:00</option>
+                                <option th:value="21">21:00</option>
+                                <option th:value="22">22:00</option>
+                                <option th:value="23">23:00</option>
+                                <option th:value="24">24:00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectEndTime">End time</label>
+                            <select class="form-control" id="selectEndTime" name="endTime" th:object="${endTime}" required>
+                                <option th:value="0">00:00</option>
+                                <option th:value="1">01:00</option>
+                                <option th:value="2">02:00</option>
+                                <option th:value="3">03:00</option>
+                                <option th:value="4">04:00</option>
+                                <option th:value="5">05:00</option>
+                                <option th:value="6">06:00</option>
+                                <option th:value="7">07:00</option>
+                                <option th:value="8">08:00</option>
+                                <option th:value="9">09:00</option>
+                                <option th:value="10">10:00</option>
+                                <option th:value="11">11:00</option>
+                                <option th:value="12">12:00</option>
+                                <option th:value="13">13:00</option>
+                                <option th:value="14">14:00</option>
+                                <option th:value="15">15:00</option>
+                                <option th:value="16">16:00</option>
+                                <option th:value="17">17:00</option>
+                                <option th:value="18">18:00</option>
+                                <option th:value="19">19:00</option>
+                                <option th:value="20">20:00</option>
+                                <option th:value="21">21:00</option>
+                                <option th:value="22">22:00</option>
+                                <option th:value="23">23:00</option>
+                                <option th:value="24">24:00</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="selectColour">Colour</label>
+                            <select class="form-control" id="selectColour" name="colour" th:object="${colour}" required>
+                                <option th:value="0">White</option>
+                                <option th:value="1" style="color: #F00">Red</option>
+                                <option th:value="2" style="color: #F60">Orange</option>
+                                <option th:value="3" style="color: #FC0">Yellow</option>
+                                <option th:value="4" style="color: #9C6">Light Green</option>
+                                <option th:value="5" style="color: #363">Green</option>
+                                <option th:value="6" style="color: #09F">Blue</option>
+                                <option th:value="7" style="color: #009">Dark Blue</option>
+                                <option th:value="8" style="color: #609">Purple</option>
+                                <option th:value="9" style="color: #F39">Pink</option>
+                                <option th:value="10" style="color: #999">Grey</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDescription">Description (optional)</label>
+                            <input type="text" class="form-control" id="inputDescription" name="description">
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary">Create</button>
+                    </form>
+            </div>
+        </div>
+        <div class="collapse" id="collapseEdit">
+            <div class="card card-body">
+                <h4 class="h4 mb-3 font-weight-normal">Edit shift type</h4>
+                <form action="/editShiftType" method="POST" th:object="${shiftType}">
+                    <input type="hidden" id="editId" name="id" required>
+                    <div class="form-group">
+                        <label for="editName">Name</label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStartTime">Start time</label>
+                        <select class="form-control" id="editStartTime" name="startTime" th:object="${startTime}" required>
+                            <option th:value="0">00:00</option>
+                            <option th:value="1">01:00</option>
+                            <option th:value="2">02:00</option>
+                            <option th:value="3">03:00</option>
+                            <option th:value="4">04:00</option>
+                            <option th:value="5">05:00</option>
+                            <option th:value="6">06:00</option>
+                            <option th:value="7">07:00</option>
+                            <option th:value="8">08:00</option>
+                            <option th:value="9">09:00</option>
+                            <option th:value="10">10:00</option>
+                            <option th:value="11">11:00</option>
+                            <option th:value="12">12:00</option>
+                            <option th:value="13">13:00</option>
+                            <option th:value="14">14:00</option>
+                            <option th:value="15">15:00</option>
+                            <option th:value="16">16:00</option>
+                            <option th:value="17">17:00</option>
+                            <option th:value="18">18:00</option>
+                            <option th:value="19">19:00</option>
+                            <option th:value="20">20:00</option>
+                            <option th:value="21">21:00</option>
+                            <option th:value="22">22:00</option>
+                            <option th:value="23">23:00</option>
+                            <option th:value="24">24:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEndTime">End time</label>
+                        <select class="form-control" id="editEndTime" name="endTime" th:object="${endTime}" required>
+                            <option th:value="0">00:00</option>
+                            <option th:value="1">01:00</option>
+                            <option th:value="2">02:00</option>
+                            <option th:value="3">03:00</option>
+                            <option th:value="4">04:00</option>
+                            <option th:value="5">05:00</option>
+                            <option th:value="6">06:00</option>
+                            <option th:value="7">07:00</option>
+                            <option th:value="8">08:00</option>
+                            <option th:value="9">09:00</option>
+                            <option th:value="10">10:00</option>
+                            <option th:value="11">11:00</option>
+                            <option th:value="12">12:00</option>
+                            <option th:value="13">13:00</option>
+                            <option th:value="14">14:00</option>
+                            <option th:value="15">15:00</option>
+                            <option th:value="16">16:00</option>
+                            <option th:value="17">17:00</option>
+                            <option th:value="18">18:00</option>
+                            <option th:value="19">19:00</option>
+                            <option th:value="20">20:00</option>
+                            <option th:value="21">21:00</option>
+                            <option th:value="22">22:00</option>
+                            <option th:value="23">23:00</option>
+                            <option th:value="24">24:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editColour">Colour</label>
+                        <select class="form-control" id="editColour" name="colour" th:object="${colour}" required>
+                            <option th:value="0">White</option>
+                            <option th:value="1" style="color: #F00">Red</option>
+                            <option th:value="2" style="color: #F60">Orange</option>
+                            <option th:value="3" style="color: #FC0">Yellow</option>
+                            <option th:value="4" style="color: #9C6">Light Green</option>
+                            <option th:value="5" style="color: #363">Green</option>
+                            <option th:value="6" style="color: #09F">Blue</option>
+                            <option th:value="7" style="color: #009">Dark Blue</option>
+                            <option th:value="8" style="color: #609">Purple</option>
+                            <option th:value="9" style="color: #F39">Pink</option>
+                            <option th:value="10" style="color: #999">Grey</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Description (optional)</label>
+                        <input type="text" class="form-control" id="editDescription" name="description">
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+        <div class="mt-3" id="shiftTypeTable"></div>
+
+    </div>
+</div>
+
+<!-- JExcel variable-->
+<script th:inline="javascript">
+    var shiftTypeData = [[${shiftTypeData}]];
+</script>
+
+<script th:inline="javascript" th:src="@{/js/shiftTypeTableJexcel.js}"></script>
+
+
+
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<!-- jQuery Custom Scroller CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+            // open or close navbar
+            $('#sidebar').toggleClass('active');
+            // close dropdowns
+            $('.collapse.in').toggleClass('in');
+            // and also adjust aria-expanded attributes we use for the open/closed arrows
+            // in our CSS
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            //expand contents width on closing
+            $('#content').toggleClass('active');
+        });
+    });
+</script>
+</body>
+
+</html>
