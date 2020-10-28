@@ -67,7 +67,7 @@ public class PasswordController {
             String url = request.getScheme() + "://" + request.getServerName();
 
             SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-            passwordResetEmail.setFrom("xinye0007@gmail.com");
+            passwordResetEmail.setFrom("example@gmail.com");
             passwordResetEmail.setTo(user.getEmail());
             passwordResetEmail.setSubject("Password Reset Request");
             passwordResetEmail.setText("To reset your password, click the link below:\n" + url + "/reset?token=" + user.getResetToken());
